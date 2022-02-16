@@ -1,0 +1,17 @@
+{
+  "name": "cordova-plugin-facerecognition",
+  "version": "0.0.1",
+  "cordova": {
+    "id": "cordova-plugin-facerecognition",
+    "platforms": [
+      "android"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android"
+  ],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

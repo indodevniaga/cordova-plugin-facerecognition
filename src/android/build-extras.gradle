@@ -1,0 +1,7 @@
+repositories{
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation files('libs/ttvface.aar')
+}
