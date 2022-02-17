@@ -14,6 +14,7 @@
         </config-file>
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <activity android:launchMode="singleTop" android:name="cordova.plugin.facerecognition.FaceRecognitionProcess" />
+            <activity android:launchMode="singleTop" android:name="cordova.plugin.facerecognition.FaceRecognitionCompare" />
         </config-file>
         <config-file parent="/*" target="AndroidManifest.xml"></config-file>
         <source-file src="src/android/FaceRecognition.java" target-dir="src/cordova/plugin/facerecognition" />
