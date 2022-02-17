@@ -27,8 +27,10 @@ public class FaceRecognition extends CordovaPlugin {
       this.detectMethod(message, callbackContext);
       return true;
     } else if (action.equals("compare")) {
-      String message = args.getString(0);
-      this.detectMethod(message, callbackContext);
+      JSONObject data = args.getJSONObject(0);
+      String mainImage = data.getString("mainImage");
+      String itemImage = data.getString("itemImage");
+      this.compareMethod(mainImage, itemImage, callbackContext);
       return true;
     }
     return false;
@@ -38,15 +40,32 @@ public class FaceRecognition extends CordovaPlugin {
     if (message != null && message.length() > 0) {
       cordova.setActivityResultCallback(this);
       keepCallback(callbackContext);
-      openNewActivity(cordova.getActivity(), REQUEST_CODE, message);
+      openNewActivityDetect(cordova.getActivity(), REQUEST_CODE, message);
     } else {
       callbackContext.error("Expected one non-empty string argument.");
     }
   }
 
-  private void openNewActivity(Context context, int REQUEST_CODE, String message) {
+  private void compareMethod(String mainImage, String itemImage, CallbackContext callbackContext) {
+    if (mainImage != null && mainImage.length() > 0 && itemImage != null && itemImage.length() > 0) {
+      cordova.setActivityResultCallback(this);
+      keepCallback(callbackContext);
+      openNewActivityCompare(cordova.getActivity(), REQUEST_CODE, mainImage, itemImage);
+    } else {
+      callbackContext.error("Expected one non-empty string argument.");
+    }
+  }
+
+  private void openNewActivityDetect(Context context, int REQUEST_CODE, String message) {
     Intent intent = new Intent(context, FaceRecognitionProcess.class);
     intent.putExtra("image", message);
+    cordova.startActivityForResult(this, intent, REQUEST_CODE);
+  }
+
+  private void openNewActivityCompare(Context context, int REQUEST_CODE, String mainImage, String itemImage) {
+    Intent intent = new Intent(context, FaceRecognitionCompare.class);
+    intent.putExtra("mainImage", mainImage);
+    intent.putExtra("otherImage", itemImage);
     cordova.startActivityForResult(this, intent, REQUEST_CODE);
   }
 
