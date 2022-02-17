@@ -19,7 +19,7 @@
         <source-file src="src/android/FaceRecognition.java" target-dir="src/cordova/plugin/facerecognition" />
         <source-file src="src/android/FaceRecognitionProcess.java" target-dir="src/cordova/plugin/facerecognition" />
         <source-file src="src/android/FaceRecognitionCompare.java" target-dir="src/cordova/plugin/facerecognition" />
-        <resource-file src="ttvface.aar" target="../libs/ttvface.aar" />
+        <resource-file src="ttvface.aar" target="libs/ttvface.aar" />
         <hook src="scripts/process_copy_android_sdk.js" type="before_plugin_install" />
         <hook type="after_prepare" src="scripts/apply-to-gradle.properties.js" />
     </platform>
