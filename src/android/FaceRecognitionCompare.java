@@ -10,10 +10,7 @@ import android.util.Base64;
 import com.ttv.face.ErrorInfo;
 import com.ttv.face.FaceEngine;
 import com.ttv.face.FaceResult;
-import com.ttv.face.GenderInfo;
-import com.ttv.face.LivenessInfo;
 import com.ttv.face.MaskInfo;
-import com.ttv.facedemo.R;
 import com.ttv.imageutil.TTVImageFormat;
 import com.ttv.imageutil.TTVImageUtil;
 import com.ttv.imageutil.TTVImageUtilError;
@@ -35,12 +32,15 @@ public class FaceRecognitionCompare extends Activity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
     String license = "";
     FaceEngine.getInstance(this).setActivation(license);
     FaceEngine.getInstance(this).init(1);
+
     Bundle data = getIntent().getExtras();
     String mainImage = data.getString("mainImage", "");
     String otherImage = data.getString("otherImage", "");
+
     byte[] mainDecodedString = Base64.decode(mainImage, Base64.DEFAULT);
     Bitmap bitmap = BitmapFactory.decodeByteArray(mainDecodedString, 0, mainDecodedString.length);
     this.processImage(bitmap, TYPE_MAIN);
@@ -103,18 +103,23 @@ public class FaceRecognitionCompare extends Activity {
       return;
     }
 
-    if(type == TYPE_MAIN && faceResults.size() > 0) {
-      mainFeature = faceResults.get(0).feature;
-    }
+    if (!faceResults.isEmpty()) {
+      if(type == TYPE_MAIN) {
+        FaceEngine.getInstance(this).extractFeature(bitmap, true, faceResults);
+        if (faceResults.size() > 0) {
+          mainFeature = faceResults.get(0).feature;
+        }
+      }
 
-    if(type == TYPE_ITEM) {
-      FaceEngine.getInstance(this).extractFeature(bitmap, false, faceResults);
-      if(faceResults.size() > 0) {
-        float score = FaceEngine.getInstance(this).compareFeature(mainFeature, faceResults.get(0).feature);
-        this.similarity = score;
-        this.error = false;
-        response();
-        return;
+      if(type == TYPE_ITEM) {
+        FaceEngine.getInstance(this).extractFeature(bitmap, false, faceResults);
+        if(faceResults.size() > 0) {
+          float score = FaceEngine.getInstance(this).compareFeature(mainFeature, faceResults.get(0).feature);
+          this.similarity = score;
+          this.error = false;
+          response();
+          return;
+        }
       }
     }
   }
