@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
 
 import com.ttv.face.ErrorInfo;
 import com.ttv.face.FaceEngine;
@@ -41,15 +40,11 @@ public class FaceRecognitionProcess extends Activity {
     String images = data.getString("image", "");
     byte[] decodedString = Base64.decode(images, Base64.DEFAULT);
     mBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-    Log.d("Log", "masuk 1");
     this.processImage();
   }
 
   public void processImage() {
-    Log.d("Log", "Masuk processImage");
-
     if (mBitmap == null) {
-      Log.d("Log", "Error 1");
       this.error = true;
       this.message = "bitmap is null!";
       this.response();
@@ -60,7 +55,6 @@ public class FaceRecognitionProcess extends Activity {
     int transformCode = TTVImageUtil.bitmapToImageData(bitmap, bgr24, TTVImageFormat.BGR24);
     if (transformCode != TTVImageUtilError.CODE_SUCCESS) {
       this.error = true;
-      Log.d("Log", "Error 2");
       this.message = "transform bitmap To ImageData failed";
       this.response();
     }
@@ -68,18 +62,14 @@ public class FaceRecognitionProcess extends Activity {
     List<FaceResult> faceResults = FaceEngine.getInstance(this).detectFace(bitmap);
     int faceProcessCode = FaceEngine.getInstance(this).faceAttrProcess(bitmap, faceResults);
 
-    Log.d("Log", "" + faceResults.size());
-
     if (faceProcessCode != ErrorInfo.MOK) {
       this.error = true;
-      Log.d("Log", "Error 3");
       this.message = "process failed!";
       this.response();
     }
 
     if (faceResults.size() == 0) {
       this.error = true;
-      Log.d("Log", "Error 4");
       this.message = "can not do further action, exit!";
       this.response();
     }
@@ -139,13 +129,6 @@ public class FaceRecognitionProcess extends Activity {
 
   private void response() {
     JSONObject obj = new JSONObject();
-    Log.d("Log", "Response");
-    Log.d("Log", "" + this.age);
-    Log.d("Log", "" + this.gender);
-    Log.d("Log", "" + this.liveness);
-    Log.d("Log", "" + this.mask);
-
-
     try {
       obj.put("error", error);
       obj.put("age", this.age);

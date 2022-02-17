@@ -18,6 +18,7 @@
         <config-file parent="/*" target="AndroidManifest.xml"></config-file>
         <source-file src="src/android/FaceRecognition.java" target-dir="src/cordova/plugin/facerecognition" />
         <source-file src="src/android/FaceRecognitionProcess.java" target-dir="src/cordova/plugin/facerecognition" />
+        <source-file src="src/android/FaceRecognitionCompare.java" target-dir="src/cordova/plugin/facerecognition" />
         <hook src="scripts/process_copy_android_sdk.js" type="before_plugin_install" />
         <hook type="after_prepare" src="scripts/apply-to-gradle.properties.js" />
     </platform>

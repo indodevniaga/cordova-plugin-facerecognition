@@ -22,15 +22,19 @@ public class FaceRecognition extends CordovaPlugin {
   @Override
   public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
     this.callbackContext = callbackContext;
-    if (action.equals("coolMethod")) {
+    if (action.equals("detect")) {
       String message = args.getString(0);
-      this.coolMethod(message, callbackContext);
+      this.detectMethod(message, callbackContext);
+      return true;
+    } else if (action.equals("compare")) {
+      String message = args.getString(0);
+      this.detectMethod(message, callbackContext);
       return true;
     }
     return false;
   }
 
-  private void coolMethod(String message, CallbackContext callbackContext) {
+  private void detectMethod(String message, CallbackContext callbackContext) {
     if (message != null && message.length() > 0) {
       cordova.setActivityResultCallback(this);
       keepCallback(callbackContext);
